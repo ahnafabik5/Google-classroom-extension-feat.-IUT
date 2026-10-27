@@ -1,0 +1,23 @@
+﻿{
+  "manifest_version": 3,
+  "name": "Classroom Command Hub",
+  "version": "0.2.0",
+  "description": "Unified tracker for Google Classroom tasks, grades, materials, and announcements.",
+  "permissions": [
+    "identity",
+    "storage"
+  ],
+  "oauth2": {
+    "client_id": "182712521041-9gljn70n9mgc2uij1tjqi7d1rbrcuvtb.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/classroom.courses.readonly",
+      "https://www.googleapis.com/auth/classroom.coursework.me.readonly",
+      "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly",
+      "https://www.googleapis.com/auth/classroom.announcements.readonly",
+      "https://www.googleapis.com/auth/gmail.readonly"
+    ]
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

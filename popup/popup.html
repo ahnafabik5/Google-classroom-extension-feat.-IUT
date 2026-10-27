@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Classroom Command Hub</title>
+  <style>
+    :root {
+      --bg-primary: #0c0a09;
+      --bg-surface: #141210;
+      --bg-card: #1c1917;
+      --bg-header: #0f0e0d;
+      --accent-gold: #f59e0b;
+      --accent-amber: #fbbf24;
+      --border-color: #292524;
+      --border-hover: #44403c;
+      --text-main: #f5f5f4;
+      --text-muted: #a8a29e;
+      --due-color: #fbbf24;
+      --due-bg: rgba(251, 191, 36, 0.12);
+      --past-color: #fb7185;
+      --past-bg: rgba(251, 113, 133, 0.12);
+      --done-color: #fde68a;
+      --done-bg: rgba(251, 191, 36, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #44403c;
+      border-radius: 3px;
+    }
+
+    body {
+      width: 800px;
+      min-height: 560px;
+      max-height: 620px;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 14px 20px;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+      z-index: 20;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24, #fde68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button.btn {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button.btn:hover {
+      background: #d97706;
+      color: #fff;
+      border-color: #fbbf24;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+    }
+
+    main {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+    }
+
+    .status-box {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .dashboard-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      font-size: 11px;
+      table-layout: fixed;
+    }
+
+    .dashboard-table th {
+      background: var(--bg-surface);
+      color: var(--accent-amber);
+      text-align: left;
+      padding: 10px 10px;
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .dashboard-table th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; padding-left: 14px; }
+    .dashboard-table th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; padding-right: 14px; }
+
+    .dashboard-table td {
+      padding: 12px 10px;
+      vertical-align: top;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      word-wrap: break-word;
+    }
+
+    .dashboard-table td:first-child { border-left: 1px solid var(--border-color); border-top-left-radius: 8px; border-bottom-left-radius: 8px; padding-left: 14px; }
+    .dashboard-table td:last-child { border-right: 1px solid var(--border-color); border-top-right-radius: 8px; border-bottom-right-radius: 8px; padding-right: 14px; }
+
+    .course-link {
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .course-link:hover {
+      color: var(--accent-amber);
+      text-decoration: underline;
+    }
+
+    .course-credit {
+      display: inline-block;
+      font-size: 10px;
+      color: #fde68a;
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .item-chip {
+      display: block;
+      text-decoration: none;
+      color: var(--text-main);
+      background: #141210;
+      border: 1px solid #292524;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .item-chip:hover {
+      background: #221e1b;
+      border-color: var(--accent-gold);
+      transform: translateY(-1px);
+    }
+
+    .chip-title {
+      font-weight: 600;
+      line-height: 1.35;
+      color: #f5f5f4;
+      font-size: 11px;
+    }
+
+    .chip-meta {
+      display: inline-block;
+      font-size: 9.5px;
+      margin-top: 6px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .due-badge { color: var(--due-color); background: var(--due-bg); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .past-badge { color: var(--past-color); background: var(--past-bg); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .done-badge { color: var(--done-color); background: var(--done-bg); border: 1px solid rgba(251, 191, 36, 0.3); }
+
+    .file-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--accent-amber);
+      text-decoration: none;
+      margin-top: 5px;
+      padding: 4px 8px;
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .file-link:hover {
+      background: rgba(251, 191, 36, 0.2);
+      border-color: var(--accent-gold);
+      text-decoration: underline;
+    }
+
+    .empty-note {
+      color: #57534e;
+      font-style: italic;
+      font-size: 10.5px;
+      padding: 4px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand-container">
+      <h1>CLASSROOM <span>COMMAND HUB</span></h1>
+    </div>
+    <div class="header-actions">
+      <button id="sync-btn" class="btn">&#x21bb; Sync Data</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="status" class="status-box">Loading your classroom dashboard...</div>
+    <div id="table-container" style="display: none;">
+      <table class="dashboard-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Course &amp; Credit</th>
+            <th style="width: 20%;">Due Tasks</th>
+            <th style="width: 20%;">Past Tasks</th>
+            <th style="width: 18%;">Submitted</th>
+            <th style="width: 22%;">Materials</th>
+          </tr>
+        </thead>
+        <tbody id="dashboard-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

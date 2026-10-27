@@ -1,0 +1,10 @@
+﻿# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/
+
+# Local logs
+*.log
